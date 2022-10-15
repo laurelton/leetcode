@@ -15,7 +15,6 @@ var validMountainArray = function(arr) {
     while (arr[j] < arr[j - 1]) j -= 1;
     if (j === arr.length - 1) return false;
 
-    console.log(i, j);
     return i === j;
 };
 
