@@ -6,17 +6,15 @@
  * @return {number}
  */
 var removeDuplicates = function(nums) {
-    if (nums.length < 2) return nums.length;
-    
-    let k = 1;
+    let swap = 1;
     for (let i = 1; i < nums.length; i += 1) {
         if (nums[i] !== nums[i - 1]) {
-            nums[k] = nums[i]; 
-            k += 1;
+            nums[swap] = nums[i];
+            swap += 1;
         }
     }
 
-    return k;
+    return swap;
 };
 
 const nums1 = [1, 1, 2];
