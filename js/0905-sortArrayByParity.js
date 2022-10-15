@@ -6,26 +6,17 @@
  * @return {number[]}
  */
 var sortArrayByParity = function(nums) {
-    let l = 0;
-    let r = nums.length - 1;
-    while (l < r) {
-        const leftOdd = nums[l] % 2 === 1;
-        const rightEven = nums[r] % 2 === 0;
-        
-        if (leftOdd && rightEven) {
-            [nums[l], nums[r]] = [nums[r], nums[l]];
-            l += 1;
-            r -= 1;
-        } else if (!leftOdd) {
-            l += 1;
-        } else if (!rightEven) {
-            r -= 1;
+    let swap = 0;
+    for (let i = 0; i < nums.length; i += 1) {
+        if (nums[i] % 2 === 0) {
+            [nums[i], nums[swap]] = [nums[swap], nums[i]];
+            swap += 1;
         }
     }
     
     return nums
 };
 
-const nums = [3,1,2,4];
+const nums = [1,3,5,7,-55,11,0];
 sortArrayByParity(nums);
 console.log(nums);
