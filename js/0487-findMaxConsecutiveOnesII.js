@@ -1,0 +1,30 @@
+//	Time:	O(N)
+//	Space:	O(1)
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findMaxConsecutiveOnes = function(nums) {
+    let maxx = 0;
+    let l = 0;
+    let zeros = 0;
+    for (let r = 0; r < nums.length; r += 1) {
+        if (nums[r] === 0) {
+            zeros += 1;
+            while (zeros > 1) {
+                if (nums[l] === 0) {
+                    zeros -= 1;
+                }
+                l += 1;
+            }
+        }
+        maxx = Math.max((r - l + 1), maxx);
+    }
+
+    return maxx;
+};
+
+// const nums = [1,0,1,1,0,1,1];
+// const nums = [1,1,1,1,1,1,];
+const nums = [1,1,0,1,0,1];
+console.log(findMaxConsecutiveOnes(nums));
