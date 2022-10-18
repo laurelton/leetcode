@@ -1,5 +1,5 @@
 //	Time:	O(n logn)
-//	Space:	O(n)
+//	Space:	O(1)
 /**
  * @param {number[]} nums
  * @return {number[]}
@@ -9,24 +9,8 @@ var frequencySort = function(nums) {
     for (val of nums) {
         counts.set(val, ~~counts.get(val) + 1)
     }
-    
-    const frequencies = Array.from(counts.entries());
-    frequencies.sort((lo, hi) => {
-        const [loKey, loVal] = lo;
-        const [hiKey, hiVal] = hi;
-        if (loVal === hiVal) return hiKey - loKey;
-        else return loVal - hiVal;
-    });
-    
-    let i = 0;
-    frequencies.forEach(([val, count]) => {
-        while (count > 0) {
-            nums[i] = val;
-            i += 1;
-            count--;
-        }
-    })
-    return nums;
+
+    return nums.sort((lo, hi) => counts.get(lo) - counts.get(hi) || hi - lo);
 };
 
 const nums = [-1,1,-6,4,5,-6,1,4,1];
