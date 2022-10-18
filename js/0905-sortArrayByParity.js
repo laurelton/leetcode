@@ -16,7 +16,7 @@ var sortArrayByParity = function(nums) {
             odd -= 1;
         }
     }
-    
+
     return nums;
 };
 
