@@ -5,22 +5,25 @@
  * @return {number}
  */
 var compress = function(chars) {
+    if (chars.length === 1) return 1;
+
     let write = 0;
+    let read = 0;
 
-    for (let read = 0; read < chars.length; read += 1) {
+    while (read < chars.length) {
+        let count = 0;
+
         const curr = chars[read];
-        let count = 1;
-
-        while (read < chars.length - 1 && chars[read + 1] === curr) {
+        while (read < chars.length && chars[read] === curr) {
             read += 1;
             count += 1;
         }
 
         chars[write++] = curr;
         if (count > 1) {
-            const digits = count.toString().split('');
-            for (const d of digits) {
-                chars[write++] = d;
+            const countArr = count.toString().split('');
+            for (const digit of countArr) {
+                chars[write++] = digit;
             }
         }
     }
@@ -29,26 +32,26 @@ var compress = function(chars) {
 };
 
 const testCases = [
-    // {
-    //     input: ["a","a","b","b","c","c","c"],
-    //     expectedInt: 6,
-    //     expectedArr: ["a","2","b","2","c","3"],
-    //  },
-    //  {
-    //     input: ["a"],
-    //     expectedInt: 1,
-    //     expectedArr: ["a"],
-    //  },
+    {
+        input: ["a","a","b","b","c","c","c"],
+        expectedInt: 6,
+        expectedArr: ["a","2","b","2","c","3"],
+     },
+     {
+        input: ["a"],
+        expectedInt: 1,
+        expectedArr: ["a"],
+     },
      {
         input: ["a","b","b","b","b","b","b","b","b","b","b","b","b","0","0","7","J","B"],
         expectedInt: 4,
         expectedArr: ["a","b","1","2"],
      },
-    //  {
-    //     input: ["q","W","W","W","W","W","W","W","W","W","W","z"],
-    //     expectedInt: 5,
-    //     expectedArr: ["q", "W", "1", "0", "z"],
-    //  },
+     {
+        input: ["q","W","W","W","W","W","W","W","W","W","W","z"],
+        expectedInt: 5,
+        expectedArr: ["q", "W", "1", "0", "z"],
+     },
 ];
 
 for (const test of testCases) {
