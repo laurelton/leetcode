@@ -5,21 +5,9 @@
  * @return {number}
  */
 var findMaxK = function(nums) {
-    const seen = new Set();
-    let maxInt = -1;
-    for (const n of nums) {
-        if (n < 0) {
-            seen.add(n);
-        }
-    }
-
-    for (const n of nums) {
-        if (n > 0 && seen.has(-n)) {
-            maxInt = Math.max(n, maxInt);
-        }
-    }
-
-    return maxInt;
+    const negatives = new Set(nums.filter(n => n < 0));
+    
+    return nums.reduce((mx, n) => negatives.has(-n) ? Math.max(mx, n) : mx, -1);
 };
 
 const testCases = [
