@@ -14,41 +14,29 @@
  * @return {ListNode}
  */
 var reverseBetween = function(head, left, right) {
-    // Create sentinel node to allow reversing from head
-    // const sntl = new ListNode(0, head);
     const sntl = {next: head};
-    let curr = sntl;
+    let leftTail = sntl;
     
-    // Iterate to node left - 1
     for (let i = 1; i < left; i += 1) {
-        curr = curr.next;
+        leftTail = leftTail.next;
     }
 
-    // Set left - 1 as tail of left portion of list
-    const leftTail = curr;
-    // set left as tail of reversed sublist
-    const revTail = curr.next;
+    const revTail = leftTail.next;  // Tail of reversed sublist
+    let revSubList = null;  // Head of reversed sublist
 
-    // Create pointer to left, and left + 1
-    // reverse sublist to right
-    let prev = null;
     let next = null;
-    curr = curr.next;
+    let curr = revTail;
+
     for (i = left; i <= right; i += 1) {
         next = curr.next;
-        curr.next = prev;
+        curr.next = revSubList;
 
-        [prev, curr] = [curr, next];
+        [revSubList, curr] = [curr, next];
     }
 
-    // set right as head of reversed sublist
-    // Set right + 1 as head of right portion of list
-    const revHead = prev;
-    const rightHead = next;
-
-    // Attach head of sublist to tail of left
-    // Attach tail of sublist to head of right
-    leftTail.next = revHead;
+     const rightHead = next;
+     
+    leftTail.next = revSubList;
     revTail.next = rightHead;
 
     return sntl.next;
