@@ -9,12 +9,14 @@ var findContentChildren = function(kids, cookies) {
     kids.sort(sortAsc);
     cookies.sort(sortAsc);
     let count = 0;
-    while (kids.length && cookies.length) {
-        const cookieSize = cookies.shift();
-        if (kids[0] <= cookieSize) {
-            kids.shift();
+    let i = 0;
+    let j = 0;
+    while (i < kids.length && j < cookies.length) {
+        if (kids[i] <= cookies[j]) {
+            i += 1;
             count += 1;
         }
+        j += 1;
     }
 
     return count;
