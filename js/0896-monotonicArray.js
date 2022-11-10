@@ -1,4 +1,4 @@
-//	Time: 	 O(n) - 2 pass
+//	Time: 	 O(n)
 //	Space:	 O(1)
 /**
  * @param {number[]} nums
@@ -6,20 +6,16 @@
  */
 var isMonotonic = function(nums) {
     if (nums.length < 2) return true;
-    let increasing;
-    let decreasing;
+    
+    let inc = true;
+    let dec = true;
 
-    for (let i = 1; i < nums.length; i += 1) {
-        increasing = nums[i - 1] <= nums[i];
-        if (!increasing) break;
+    for (let i = 0; i < nums.length - 1; i += 1) {
+        if (nums[i] > nums[i + 1]) inc = false;
+        if (nums[i] < nums[i + 1]) dec = false;
     }
 
-    for (let i = 1; i < nums.length; i += 1) {
-        decreasing = nums[i - 1] >= nums[i];
-        if (!decreasing) break;
-    }
-
-    return increasing || decreasing;
+    return inc || dec;
 };
 
 const inputs = [
@@ -27,6 +23,9 @@ const inputs = [
     [6,5,4,4],
     [1,3,2],
     [1,0,3],
+    [1,1,1,1,1],
+    [4,4,4,4,2,2,2,2],
+    [7,7,7,9,9,9,9,9],
 ];
 
 for (const test of inputs) {
