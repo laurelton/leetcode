@@ -10,12 +10,6 @@ var largestUniqueNumber = function(nums) {
         counts.set(n, ~~counts.get(n) + 1);
     }
 
-    let mx = -1;
-    for (const n of nums) {
-        if (counts.get(n) === 1) {
-            mx = Math.max(mx, n);
-        }
-    }
-
-    return mx;
+    return Array.from(counts.entries())
+        .reduce((mx, [n, count]) => count === 1 ? Math.max(mx, n) : mx, -1);
 };
