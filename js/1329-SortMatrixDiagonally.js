@@ -7,27 +7,19 @@
 var diagonalSort = function(matrix) {
     const N = matrix.length;
     const M = matrix[0].length;
+    let row = N - 1;
+    let col = 0;
 
-    // Iterate over left column starting from bottom
-    for (let row = N - 1; row >= 0; row -= 1) {
-        const col = 0;
-        // Collect values along diagonal into an array
+    while (row >= 0 && col < M) {
+        // Get the values along the diagonal
         const values = getDiagonalValues(matrix, row, col);
-        // Sort array
+        // Sort the values
         values.sort(sortAscending);
-        // Replace values along diagonal with sorted values
+        // Replace the diagonal values
         updateDiagonalValues(matrix, row, col, values);
-    }
 
-    // Iterater over top row starting from index 1
-    for (let col = 1; col < M; col += 1) {
-        const row = 0;
-        // Collect values along diagonal 
-        const values = getDiagonalValues(matrix, row, col);
-        // Sort diagonal values
-        values.sort(sortAscending);
-        // Update diagonal values
-        updateDiagonalValues(matrix, row, col, values);
+        col += row == 0 ? 1 : 0;
+        row -= row > 0 ? 1 : 0;
     }
 
     return matrix;
@@ -37,11 +29,9 @@ function getDiagonalValues(matrix, row, col) {
     const N = matrix.length;
     const M = matrix[0].length;
     const values = [];
+    
     while (row < N && col < M) {
-        values.push(matrix[row][col]);
-
-        row += 1;
-        col += 1;
+        values.push(matrix[row++][col++]);
     }
 
     return values;
