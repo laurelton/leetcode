@@ -7,49 +7,33 @@
 var diagonalSort = function(matrix) {
     const N = matrix.length;
     const M = matrix[0].length;
-    let row = N - 1;
-    let col = 0;
-
-    while (row >= 0 && col < M) {
-        // Get the values along the diagonal
-        const values = getDiagonalValues(matrix, row, col);
-        // Sort the values
-        values.sort(sortAscending);
-        // Replace the diagonal values
-        updateDiagonalValues(matrix, row, col, values);
-
-        col += row == 0 ? 1 : 0;
-        row -= row > 0 ? 1 : 0;
-    }
-
-    return matrix;
-};
-
-function getDiagonalValues(matrix, row, col) {
-    const N = matrix.length;
-    const M = matrix[0].length;
-    const values = [];
+    const diagonals = new Map();
+    const result = Array.from({length: N}, () => new Array(M));
     
-    while (row < N && col < M) {
-        values.push(matrix[row++][col++]);
+
+    for (let row = 0; row < N; row += 1) {
+        for (let col = 0; col < M; col += 1) {
+            const key = row - col;
+            const val = diagonals.get(key) ?? [];
+            val.push(matrix[row][col]);
+            diagonals.set(key, val);
+        }
     }
 
-    return values;
-}
-
-function updateDiagonalValues(matrix, row, col, values) {
-    const N = matrix.length;
-    const M = matrix[0].length;
-
-    let i = 0;
-    while (row < N && col < M) {
-        matrix[row++][col++] = values[i++];
+    for (const [_, values] of diagonals) {
+        values.sort((a, b) => a - b);
     }
-}
 
-function sortAscending(a, b) {
-    return a - b;
-}
+    for (let row = 0; row < N; row += 1) {
+        for (let col = 0; col < M; col += 1) {
+            const key = row - col;
+            const val = diagonals.get(key);
+            result[row][col] = val.shift();
+        }
+    }
+
+    return result;
+};
 
 const testCases = [
     {
