@@ -1,23 +1,25 @@
-//	Time: 	 O(n^2)
-//	Space:	 O(n^2)
+//	Time: 	 O(n logn)
+//	Space:	 O(1)
 /**
  * @param {number[]} nums
  * @param {number} k
  * @return {number}
  */
 var twoSumLessThanK = function(nums, k) {
-    const sums = [];
-    for (let i = 0; i < nums.length; i += 1) {
-        for (let j = i +  1; j < nums.length; j += 1) {
-            sums.push(nums[i] + nums[j]);
+    nums.sort((a, b) => a - b);
+    let l = 0;
+    let r = nums.length - 1;
+    let result = -1;
+    while (l < r) {
+        const currSum = nums[l] + nums[r];
+        if (currSum >= k) r--;
+        if (currSum < k) {
+            result = Math.max(result, currSum);
+            l++;
         }
     }
 
-    sums.sort((a, b) => a - b);
-    let idx = sums.length - 1;
-    while (sums[idx] >= k && idx >= 0) idx--;
-
-    return idx >= 0 ? sums[idx] : -1;
+    return result;
 };
 
 const testCases = [
