@@ -6,7 +6,7 @@ Solutions to LeetCode problems
 
 [X] [Arrays 101](https://leetcode.com/explore/learn/card/fun-with-arrays/)
 
-[ ] [Array and Strings](https://leetcode.com/explore/learn/card/array-and-string/)
+[X] [Array and Strings](https://leetcode.com/explore/learn/card/array-and-string/)
 
 [ ] [Linked List](https://leetcode.com/explore/learn/card/linked-list/)
 
