@@ -5,35 +5,35 @@
  * @return {number}
  */
 var numIslands = function(grid) {
+    const LAND = '1';
+    const VISITED = -1;
+    const N = grid.length;
+    const M = grid[0].length;
     let count = 0;
-    const queue = [];
+    let stack = [];
+    const getNeighbors = (row, col) => {
+        const neighbors = [];
+        if (row + 1 < N) neighbors.push({row: row + 1, col});
+        if (col + 1 < M) neighbors.push({row, col: col + 1});
+        if (row - 1 > -1) neighbors.push({row: row - 1, col});
+        if (col - 1 > -1) neighbors.push({row, col: col - 1});
+        
+        return neighbors;
+    };
 
-    for (let i = 0; i < grid.length; i += 1) {
-        for (let j = 0; j < grid[i].length; j += 1) {
-            if (grid[i][j] === '1') {
-                grid[i][j] = '-1';
-                queue.push({row: i, col: j});
+    for (let n = 0; n < N; n += 1) {
+        for (let m = 0; m < M; m += 1) {
+            if (grid[n][m] === LAND) {
                 count += 1;
-            }
+                grid[n][m] = VISITED;
+                stack = stack.concat(getNeighbors(n, m));
 
-            while (queue.length) {
-                const {row, col} = queue.shift();
-
-                if (grid[row - 1] && grid[row - 1][col] && grid[row - 1][col] === '1') {
-                    grid[row - 1][col] = '-1';
-                    queue.push({row: row - 1, col});
-                }
-                if (grid[row + 1] && grid[row + 1][col] && grid[row + 1][col] === '1') {
-                    grid[row + 1][col] = '-1';
-                    queue.push({row: row + 1, col});
-                }
-                if (grid[row][col - 1] && grid[row][col - 1] === '1') {
-                    grid[row][col - 1] = '-1';
-                    queue.push({row, col: col - 1});
-                }
-                if (grid[row][col + 1] && grid[row][col + 1] === '1') {
-                    grid[row][col + 1] = '-1';
-                    queue.push({row, col: col + 1});
+                while (stack.length) {
+                    const {row, col} = stack.pop();
+                    if (grid[row][col] === LAND) {
+                        grid[row][col] = VISITED;
+                        stack = stack.concat(getNeighbors(row, col));
+                    }
                 }
             }
         }
@@ -43,23 +43,31 @@ var numIslands = function(grid) {
 };
 
 const testCases = [
+    // {
+    //     input: [
+    //         ["1","1","1","1","0"],
+    //         ["1","1","0","1","0"],
+    //         ["1","1","0","0","0"],
+    //         ["0","0","0","0","0"],
+    //     ],
+    //     expected: 1,
+    // },
+    // {
+    //     input: [
+    //         ["1","1","0","0","0"],
+    //         ["1","1","0","0","0"],
+    //         ["0","0","1","0","0"],
+    //         ["0","0","0","1","1"],
+    //     ],
+    //     expected: 3,
+    // },
     {
         input: [
-            ["1","1","1","1","0"],
-            ["1","1","0","1","0"],
-            ["1","1","0","0","0"],
-            ["0","0","0","0","0"],
+            ["1","1","1"],
+            ["0","1","0"],
+            ["1","1","1"],
         ],
         expected: 1,
-    },
-    {
-        input: [
-            ["1","1","0","0","0"],
-            ["1","1","0","0","0"],
-            ["0","0","1","0","0"],
-            ["0","0","0","1","1"],
-        ],
-        expected: 3,
     },
 ];
 
