@@ -72,23 +72,32 @@ var greedyBFS = function(n) {
     const root = Math.sqrt(n);
     if (Number.isInteger(root)) return level;
 
-    const length = Math.floor(root);
-    const squaresArr = Array.from({length}, (_, idx) => (idx + 1) ** 2);
-    const squares = new Set(squaresArr);
-    const queueArr = squaresArr.map(sq => n - sq);
-    let queue = new Set(queueArr);
-    
-    while (queue.size) {
-        level += 1;
-        const remainders = new Set();
-        for (const rem of queue) {
-            if (squares.has(rem)) return level;
+    const remainders = getSquares(n).map(sq => n - sq);
+    const queue = [remainders];
 
-            squaresArr.forEach(sq => sq < rem && remainders.add(rem - sq));
+    while (queue.length) {
+        level += 1;
+        const currLevel = queue.shift();
+        const nextLevel = new Set();
+        for (const num of currLevel) {
+            if (Number.isInteger(Math.sqrt(num))) return level;
+
+            getSquares(num)
+                .map(sq => num - sq)
+                .forEach(rem => nextLevel.add(rem));
         }
 
-        queue = remainders;
+        queue.push(Array.from(nextLevel));
     }
+}
+
+var getSquares = function(n) {
+    const squares = [];
+    for (let i = 1; i * i < n; i += 1) {
+        squares.push(i * i)
+    }
+
+    return squares;
 }
 
 const testCases = [
