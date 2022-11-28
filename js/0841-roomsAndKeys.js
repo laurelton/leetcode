@@ -5,26 +5,24 @@
  * @return {boolean}
  */
 var canVisitAllRooms = function(rooms) {
-    const graph = new Map();
-    const roomAccess = [];
-    const visited = new Set();
-    for (let i = 0; i < rooms.length; i += 1) {
-        graph.set(i, rooms[i]);
-        roomAccess[i] = i === 0;
-    }
-
+    const access = rooms.map((_, idx) => idx === 0);
     const queue = [0];
+    const seen = new Set();
+
     while (queue.length) {
         const roomId = queue.shift();
-        visited.add(roomId);
+        access[roomId] = true;
+        seen.add(roomId);
 
-        const newRooms = graph.get(roomId).filter(id => !visited.has(id))
-        for (const id of newRooms) {
-            queue.push(id);
-            roomAccess[id] = true;
+        for (const id of rooms[roomId]) {
+            if (!seen.has(id)) {
+                queue.push(id);
+            }
         }
     }
 
-    return roomAccess.reduce((prev, curr) => prev && curr);
+    return access.reduce((prev, curr) => prev && curr);
 };
+
+canVisitAllRooms([[2],[],[1]])
 
