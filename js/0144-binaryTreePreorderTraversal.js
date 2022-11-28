@@ -14,9 +14,16 @@ var preorderTraversal = function(root) {
     let result = [];
     if (!root) return result;
     
-    result.push(root.val);
-    result = result.concat(preorderTraversal(root.left));
-    result = result.concat(preorderTraversal(root.right));
+    const stack = [];
+    stack.push(root);
+
+    while (stack.length) {
+        const node = stack.pop();
+        result.push(node.val);
+        
+        if (node.right) stack.push(node.right);
+        if (node.left) stack.push(node.left);
+    }
     
     return result;
 };
