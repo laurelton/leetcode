@@ -15,26 +15,23 @@ const {createTree} = require('./utils/binaryTree.js');
  * @return {number[]}
  */
 var recursive = function(root) {
-    const result = [];
-    const inorderTraversal = (node, arr) => {
-        if (!node) return arr;
+    let result = [];
+    if (!root) return result;
 
-        if (node.left) inorderTraversal(node.left, arr);
-        arr.push(node.val);
-        if (node.right) inorderTraversal(node.right, arr);
-    };
-
-    inorderTraversal(root, result);
+    result = result.concat(recursive(root.left));
+    result.push(root.val);
+    result = result.concat(recursive(root.right));
 
     return result;
 };
 
 var iterative = function(root) {
     const result = [];
+    if (!root) return result;
+
     const stack = [];
     let curr = root;
-
-    while (stack.length || curr) {
+    while (curr || stack.length) {
         while (curr) {
             stack.push(curr);
             curr = curr.left;
