@@ -13,7 +13,7 @@ const {createTree} = require('./utils/binaryTree');
  * @param {TreeNode} root
  * @return {number[][]}
  */
-var levelOrder = function(root) {
+var iterative = function(root) {
     const result = [];
     if (!root) return result;
     
@@ -36,6 +36,31 @@ var levelOrder = function(root) {
     return result;
 };
 
+var recursive = function(root) {
+    const result = [];
+    if (!root) return result;
+
+    const getLevelValues = (nodes, level, values) => {
+        if (!nodes.length) return values;
+
+        if (values.length < level) values.push([]);
+
+        const children = [];
+        const idx = level - 1;
+        for (const node of nodes) {
+            values[idx].push(node.val);
+            
+            if (node.left) children.push(node.left);
+            if (node.right) children.push(node.right);
+        }
+
+        getLevelValues(children, level + 1, values);
+        return values;
+    };
+
+    return getLevelValues([root], 1, result);
+}
+
 const testCases = [
     {
         input: [3,9,20,null,null,15,7],
@@ -47,6 +72,7 @@ for (const {input, expected} of testCases) {
     console.log(`Input:     ${input}`);
     const tree = createTree(input);
     console.log(`Expected:  ${expected}`);
-    console.log(`Actual:    ${levelOrder(tree)}`);
+    console.log(`Iterative: ${iterative(tree)}`);
+    console.log(`Recursive: ${recursive(tree)}`);
     console.log('='.repeat(50), '\n');
 }
