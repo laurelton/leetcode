@@ -16,4 +16,42 @@ function createTree(arr, idx = 0) {
     return root;
 }
 
-module.exports = {createTree};
+function preorder(root) {
+    if (!root) return [];
+
+    let result = [];
+    result.push(root.val);
+    result = result.concat(preorder(root.left));
+    result = result.concat(preorder(root.right));
+
+    return result;
+}
+
+function inorder(root) {
+    if (!root) return [];
+
+    let result = [];
+    result = result.concat(inorder(root.left));
+    result.push(root.val);
+    result = result.concat(inorder(root.right));
+
+    return result;
+}
+
+function postorder(root) {
+    if (!root) return [];
+    
+    let result = [];
+    result = result.concat(postorder(root.left));
+    result = result.concat(postorder(root.right));
+    result.push(root.val);
+
+    return result;
+}
+
+module.exports = {
+    createTree,
+    preorder,
+    inorder,
+    postorder,
+};
